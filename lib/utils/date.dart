@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-DateFormat _dateFormat = DateFormat("yyyy.MM.dd - HH:mm");
+DateFormat _dateFormat = DateFormat('yyyy.MM.dd - HH:mm');
 
 extension DateFormatting on int {
   String formattedDate() {

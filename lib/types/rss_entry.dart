@@ -5,6 +5,7 @@ import '../utils/date.dart';
 import 'database_entry.dart';
 
 class RssEntry extends DatabaseEntry {
+  @override
   int id;
   String url;
   String title;
@@ -16,11 +17,11 @@ class RssEntry extends DatabaseEntry {
   RssEntry({@required this.id, @required this.url, @required this.title, @required this.date, @required this.text});
 
   RssEntry.fromMap(Map<String, dynamic> map) {
-    this.id = map[kColumnId];
-    this.url = map[kColumnUrl];
-    this.title = map[kColumnTitle];
-    this.date = map[kColumnDate];
-    this.text = map[kColumnText];
+    id = map[kColumnId];
+    url = map[kColumnUrl];
+    title = map[kColumnTitle];
+    date = map[kColumnDate];
+    text = map[kColumnText];
   }
 
   @override
