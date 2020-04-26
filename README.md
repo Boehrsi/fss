@@ -1,16 +1,5 @@
-# fss
+# Fluttery Site Summaries
 
-Fluttery Site Summaries - RSS the Flutter way
+This app was developed as part of my Flutter tutorial series found on https://boehrsi.de/collections/flutter-app-development/. The app itself is functional and the tutorial is meant for intermediate level developers. It tried to adhere to best practices and created an actual architecture during development, so the initial understanding of the flow requires some knowledge of [Dart](https://dart.dev/), [Flutter](https://flutter.dev/) and the [BloC concept](https://bloclibrary.dev/).
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Further information can be found on https://boehrsi.de. My blog posts are written in german, if interest for an english translation of the tutorial series is given, feel free to create an issue / upvote an exisiting one and I will try to create an english version too.  
