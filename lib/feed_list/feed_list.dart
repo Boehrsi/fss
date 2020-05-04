@@ -73,7 +73,7 @@ class _FeedListState extends State<FeedList> {
                 itemCount: feedList.length,
                 itemBuilder: (context, index) {
                   var feed = feedList[index];
-                  return FeedListItem(feed: feed, bloc: _bloc);
+                  return FeedListItem(feed: feed);
                 },
               ),
             );
@@ -89,16 +89,15 @@ class _FeedListState extends State<FeedList> {
 }
 
 class FeedListItem extends StatelessWidget {
-  const FeedListItem({Key key, @required RssFeed feed, @required FeedListBloc bloc})
+  const FeedListItem({Key key, @required RssFeed feed})
       : _feed = feed,
-        _bloc = bloc,
         super(key: key);
 
   final RssFeed _feed;
-  final FeedListBloc _bloc;
 
   @override
   Widget build(BuildContext context) {
+    final bloc =  BlocProvider.of<FeedListBloc>(context);
     return ListTile(
       title: Text(_feed.name),
       subtitle: Text('$kFeedListLastUpdate: ${_feed.formattedLastUpdate}'),
@@ -108,7 +107,7 @@ class FeedListItem extends StatelessWidget {
           MaterialPageRoute<String>(
             builder: (context) {
               return BlocProvider.value(
-                value: _bloc,
+                value: bloc,
                 child: EntryList(feedId: _feed.id),
               );
             },
