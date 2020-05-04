@@ -72,7 +72,7 @@ class _FeedListState extends State<FeedList> {
               child: ListView.builder(
                 itemCount: feedList.length,
                 itemBuilder: (context, index) {
-                  var feed = feedList[index];
+                  final feed = feedList[index];
                   return FeedListItem(feed: feed);
                 },
               ),
