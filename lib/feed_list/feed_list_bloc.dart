@@ -41,7 +41,7 @@ class FeedListBloc extends Bloc<FeedListEvent, FeedListState> with RssReader {
     final oldFeed = event.oldFeed;
     if (oldFeed != null && newFeed.id != oldFeed.id) {
       await databaseWrapper.deleteAsync(oldFeed, RssFeed);
-    } else if  (oldFeed != null && newFeed.id == oldFeed.id) {
+    } else if (oldFeed != null && newFeed.id == oldFeed.id) {
       newFeed.lastUpdate = oldFeed.lastUpdate;
     }
     await databaseWrapper.setAsync(newFeed, RssFeed);

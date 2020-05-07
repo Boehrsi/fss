@@ -15,7 +15,8 @@ const kFeedListLastUpdate = 'Last update';
 // Feed / entry
 const kEntryListScreenTitle = 'Feed';
 const kEntryListUpdatedNever = 'Never';
-const kEntryListFeedChanged = 'Feed URL successfully changed, please reload feed';
+const kEntryListFeedAdded = 'Feed successfully added';
+const kEntryListFeedEdited = 'Feed URL successfully changed, please reload feed';
 const kEntryListFeedRemoved = 'Feed successfully deleted';
 
 // Change feed

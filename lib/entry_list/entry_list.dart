@@ -47,10 +47,10 @@ class _EntryListState extends State<EntryList> {
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.edit),
-                  onPressed: () async {
-                    final result = await Navigator.push(
+                  onPressed: () {
+                    Navigator.push(
                       context,
-                      MaterialPageRoute<String>(
+                      MaterialPageRoute<Type>(
                         builder: (context) {
                           return MultiBlocProvider(
                             providers: [
@@ -61,10 +61,13 @@ class _EntryListState extends State<EntryList> {
                           );
                         },
                       ),
-                    );
-                    if (result != null) {
-                      Navigator.pop(context, result);
-                    }
+                    ).then((result) {
+                      if (result != null) {
+                        if (result == Type.delete || result == Type.editId) {
+                          Navigator.pop(context, result);
+                        }
+                      }
+                    });
                   },
                 )
               ],

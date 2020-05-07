@@ -10,6 +10,20 @@ import '../feed_list/feed_list_barrel.dart';
 import '../widgets/state_info.dart';
 import 'feed_list_change.dart';
 
+void showSnackbar(ScaffoldState state, Type type) {
+  String text;
+  if (type == Type.add) {
+    text = kEntryListFeedAdded;
+  } else if (type == Type.editId) {
+    text = kEntryListFeedEdited;
+  } else {
+    text = kEntryListFeedRemoved;
+  }
+  state
+    ..removeCurrentSnackBar()
+    ..showSnackBar(SnackBar(content: Text(text)));
+}
+
 class FeedList extends StatefulWidget {
   @override
   _FeedListState createState() => _FeedListState();
@@ -18,6 +32,7 @@ class FeedList extends StatefulWidget {
 class _FeedListState extends State<FeedList> {
   FeedListBloc _bloc;
   Completer<void> _refreshCompleter;
+  final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -29,6 +44,7 @@ class _FeedListState extends State<FeedList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: Text(kFeedListScreenTitle),
         actions: <Widget>[
@@ -37,7 +53,7 @@ class _FeedListState extends State<FeedList> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute<String>(
+                MaterialPageRoute<Type>(
                   builder: (context) {
                     return BlocProvider.value(
                       value: _bloc,
@@ -45,7 +61,11 @@ class _FeedListState extends State<FeedList> {
                     );
                   },
                 ),
-              );
+              ).then((result) {
+                if (result != null) {
+                  showSnackbar(scaffoldKey.currentState, result);
+                }
+              });
             },
           )
         ],
@@ -97,14 +117,14 @@ class FeedListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc =  BlocProvider.of<FeedListBloc>(context);
+    final bloc = BlocProvider.of<FeedListBloc>(context);
     return ListTile(
       title: Text(_feed.name),
       subtitle: Text('$kFeedListLastUpdate: ${_feed.formattedLastUpdate}'),
-      onTap: () async {
-        final result = await Navigator.push(
+      onTap: () {
+        Navigator.push(
           context,
-          MaterialPageRoute<String>(
+          MaterialPageRoute<Type>(
             builder: (context) {
               return BlocProvider.value(
                 value: bloc,
@@ -112,12 +132,11 @@ class FeedListItem extends StatelessWidget {
               );
             },
           ),
-        );
-        if (result != null) {
-          Scaffold.of(context)
-            ..removeCurrentSnackBar()
-            ..showSnackBar(SnackBar(content: Text(result)));
-        }
+        ).then((result) {
+          if (result != null) {
+            showSnackbar(Scaffold.of(context), result);
+          }
+        });
       },
     );
   }

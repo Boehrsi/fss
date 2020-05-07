@@ -6,6 +6,13 @@ import '../constants/strings_user_visible.dart';
 import '../feed_list/feed_list_barrel.dart';
 import '../types/rss_feed.dart';
 
+enum Type {
+  add,
+  edit,
+  editId,
+  delete,
+}
+
 enum _DialogResult {
   yes,
   no,
@@ -24,7 +31,6 @@ class _FeedListChangeState extends State<FeedListChange> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _urlController = TextEditingController();
-  String _initialUrl;
   bool _isEditMode;
 
   @override
@@ -35,7 +41,6 @@ class _FeedListChangeState extends State<FeedListChange> {
     if (_isEditMode) {
       _nameController.text = feed.name;
       _urlController.text = feed.url;
-      _initialUrl = feed.url;
     }
   }
 
@@ -87,8 +92,8 @@ class _FeedListChangeState extends State<FeedListChange> {
     );
   }
 
-  void showDeleteDialog(BuildContext context) async {
-    final result = await showDialog(
+  void showDeleteDialog(BuildContext context) {
+    showDialog(
         context: context,
         builder: (_) {
           return AlertDialog(
@@ -105,10 +110,11 @@ class _FeedListChangeState extends State<FeedListChange> {
               ),
             ],
           );
-        });
-    if (result == _DialogResult.yes) {
-      Navigator.pop(context, kEntryListFeedRemoved);
-    }
+        }).then((result) {
+      if (result == _DialogResult.yes) {
+        Navigator.pop(context, Type.delete);
+      }
+    });
   }
 
   void setFeed(BuildContext context) {
@@ -119,8 +125,16 @@ class _FeedListChangeState extends State<FeedListChange> {
         url: newUrl,
         name: _nameController.text,
       );
+      Type type;
+      if (widget?.feed == null) {
+        type = Type.add;
+      } else if (widget.feed.url == newUrl) {
+        type = Type.edit;
+      } else {
+        type = Type.editId;
+      }
       BlocProvider.of<FeedListBloc>(context).add(SetFeed(newFeed: feed, oldFeed: widget?.feed));
-      Navigator.pop(context, _initialUrl != newUrl ? kEntryListFeedChanged : null);
+      Navigator.pop(context, type);
     }
   }
 }
